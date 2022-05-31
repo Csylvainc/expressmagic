@@ -3,9 +3,6 @@ import express from 'express'
 import routerCat from './routes/category.js'
 import routerToys from './routes/toys.js'
 
-
-
-
 const app = express()
 const port = 3000
 import mongoose from 'mongoose';
