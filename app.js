@@ -2,7 +2,6 @@ import express from 'express'
 //import 'dotenv/config'
 import routerCat from './routes/category.js'
 import routerToys from './routes/toys.js'
-
 const app = express()
 const port = 3000
 import mongoose from 'mongoose';
@@ -13,6 +12,32 @@ app.use(express.urlencoded({ extended: true }))
 app.get('/', (req, res) => {
     res.send('My first API')
 })
+
+// connection à la bdd mongodb
+main().catch(err => log.error(err))
+async function main() {
+    await mongoose.connect('mongodb+srv://csylvainc:8HcBg1irilgXMkNG@cluster0.4dgmz.mongodb.net/?retryWrites=true&w=majority');
+    console.log("connection réussi");
+
+}
+
+// creation de shema
+const toysSchema = new mongoose.Schema({
+    name: String,
+    description: String,
+    price: Number
+});
+
+// création d'une méthode
+toysSchema.methods.speak = function speak() {
+    const greeting = this.name
+        ? "Meow name is " + this.name
+        : "I don't have a name";
+    console.log(greeting);
+};
+
+// création de model
+export const Toy = mongoose.model('toy', toysSchema);
 
 
 
@@ -43,6 +68,5 @@ app.get('/categories/:name/toys', (req, res) => {
 })
 
 app.listen(port, () => {
-    mongoose.connect('mongodb+srv://csylvainc:8HcBg1irilgXMkNG@cluster0.4dgmz.mongodb.net/?retryWrites=true&w=majority');
     console.log(`serveur lancé sur le port ${port}`)
 })
