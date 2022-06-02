@@ -1,5 +1,4 @@
 import express from 'express'
-import { Toy } from '../app.js'
 //import {toys} from "../data.js";
 const routerToys = express.Router()
 routerToys.use(express.json())
@@ -24,7 +23,6 @@ routerToys.get('/:name', async (req, res) => {
 // route création
 routerToys.post('/', async (req, res) => {
         let toy = req.body.name
-        console.log(toy);
         let newToy = await new Toy(req.body);
         newToy.save()
     
